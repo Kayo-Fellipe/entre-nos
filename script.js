@@ -24,6 +24,7 @@
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const CARDS = [
   // =========================================================
   // BEIJOS — 40 CARTAS
@@ -261,12 +262,17 @@
     wall: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 10v60"/><circle cx="40" cy="20" r="5"/><path d="M40 26c0 10 0 18 0 26"/><path d="M40 36c-10 0-20 0-26 0"/><path d="M40 52c-10 0-20 0-26 0"/></svg>',
   };
 =======
+=======
+>>>>>>> 481be2d (up)
   function positionImageUrl(p) {
     if (!p.image) return "";
     if (/^https?:\/\//i.test(p.image)) return p.image; // URL completa
     return D.positionImageBase ? D.positionImageBase + p.image : "";
   }
+<<<<<<< HEAD
 >>>>>>> 9b6080b (up)
+=======
+>>>>>>> 481be2d (up)
 
   /* ============================================================
      3. ESTADO + localStorage
@@ -691,6 +697,7 @@
     burstParticles();
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   
  function renderCard(c, noAnim) {
   const el = $("#gameCard");
@@ -735,6 +742,8 @@
           </div>
         `;
 =======
+=======
+>>>>>>> 481be2d (up)
 
   function setEndUi(isEnd) {
     $("#nextLabel").textContent = isEnd ? "Concluir" : "Próximo";
@@ -947,7 +956,10 @@
         }
       } else {
         iconEl.innerHTML = cat ? cat.icon : "";
+<<<<<<< HEAD
 >>>>>>> 9b6080b (up)
+=======
+>>>>>>> 481be2d (up)
       }
 
       // Formato
@@ -1075,6 +1087,7 @@
 
   /* ============================================================
 <<<<<<< HEAD
+<<<<<<< HEAD
      8. POSIÇÕES — render
      ============================================================ */
   function renderPositions() {
@@ -1127,6 +1140,9 @@
 =======
      8. PARTÍCULAS / CONFETES
 >>>>>>> 9b6080b (up)
+=======
+     8. PARTÍCULAS / CONFETES
+>>>>>>> 481be2d (up)
      ============================================================ */
   const canvas = $("#particles");
   const ctx = canvas.getContext("2d");
