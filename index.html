@@ -2,16 +2,18 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#1a0a14" />
-    <title>Ponto a Dois — Um jogo para dois</title>
+    <title>Entre Nós — Um jogo para dois</title>
+    <meta name="description" content="Entre Nós: um jogo de cartas para casais fortalecerem a conexão. Conteúdo 18+." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <meta property="og:image" content="https://bolt.new/static/og_default.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+    <meta property="og:title" content="Entre Nós — Um jogo para dois" />
+    <meta property="og:description" content="Descubram novas formas de se conectar, juntos." />
+    <!-- Quando tiver uma imagem de divulgação, adicione:
+         <meta property="og:image" content="https://seusite.com/capa.png" /> -->
   </head>
 
   <body>
@@ -70,8 +72,15 @@
           <h2 class="section-title">Monte o seu jogo</h2>
 
           <p class="section-subtitle">
-            Escolha as categorias e o nível de intensidade.
+            Escolha o modo, as categorias e o nível de intensidade.
           </p>
+
+
+          <!-- Modo de jogo -->
+          <div class="setup-block">
+            <h3 class="block-label">Modo de jogo</h3>
+            <div class="mode-grid" id="modeGrid"></div>
+          </div>
 
 
           <!-- Categorias -->
@@ -85,6 +94,7 @@
           <div class="setup-block">
             <h3 class="block-label">Nível de intensidade</h3>
             <div class="intensity-grid" id="intensityGrid"></div>
+            <p class="int-help" id="intHelp"></p>
           </div>
 
 
@@ -213,7 +223,7 @@
           <!-- Vez do jogador -->
           <div class="turn-bar">
 
-            <span class="turn-label">
+            <span class="turn-label" id="turnLabel">
               Vez de
             </span>
 
@@ -231,6 +241,13 @@
               Jogador 1
             </span>
 
+          </div>
+
+
+          <!-- Etapa (Noite de Encontro) -->
+          <div class="stage-line" id="stageLine" hidden>
+            <span id="stageName"></span>
+            <span class="stage-bar"><i id="stageBar"></i></span>
           </div>
 
 
@@ -255,17 +272,17 @@
               <div class="card-icon" id="cardIcon">
                 <!-- Ícone ou imagem será inserido pelo JavaScript -->
               </div>
-              
+
+              <span class="card-format" id="cardFormat" hidden></span>
+
               <p class="card-text" id="cardText">
                 Carregando…
               </p>
-              
-              <div class="card-bottom">
-                <span class="card-counter">
-                  Carta <b id="cardIndex">0</b> / <b id="cardTotal">0</b>
-                </span>
-              </div>
-              
+
+              <p class="card-hint" id="cardHint" hidden></p>
+
+              <div class="card-extra" id="cardExtra" hidden></div>
+
             </article>
           </div>
 
@@ -278,7 +295,7 @@
               id="nextBtn"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              Próximo
+              <span id="nextLabel">Próximo</span>
             </button>
 
             <button
@@ -295,37 +312,6 @@
         </div>
       </section>
 
-
-      <!-- ============ TELA DE POSIÇÕES ============ -->
-      <section class="screen screen--positions" data-screen="positions">
-
-        <div class="positions-inner">
-
-          <button
-            class="btn btn--back"
-            data-goto="game"
-            aria-label="Voltar"
-          >
-            ← Voltar ao jogo
-          </button>
-
-          <h2 class="section-title">
-            Posições de casal
-          </h2>
-
-          <p class="section-subtitle">
-            Uma seleção elegante para inspirar o momento.
-          </p>
-
-          <div
-            class="positions-grid"
-            id="positionsGrid"
-          ></div>
-
-        </div>
-
-      </section>
-
     </main>
 
 
@@ -334,6 +320,9 @@
       class="modal"
       id="modalHowto"
       data-modal="howto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="howtoTitle"
       aria-hidden="true"
     >
 
@@ -352,31 +341,41 @@
           ✕
         </button>
 
-        <h2 class="modal-title">
+        <h2 class="modal-title" id="howtoTitle">
           Como Jogar
         </h2>
 
         <ol class="howto-steps">
 
           <li>
-            Escolham juntos as categorias e o nível de intensidade.
+            Escolham o modo: <b>Livre</b>, com cartas variadas, ou
+            <b>Noite de Encontro</b>, uma sessão guiada que começa leve
+            e vai esquentando aos poucos.
           </li>
 
           <li>
-            A cada rodada, um de vocês recebe uma carta aleatória.
+            Escolham as categorias e o nível de intensidade.
           </li>
 
           <li>
-            Leiam o desafio em voz alta e vivam o momento juntos.
+            Cada carta tem um formato: pergunta, escolha, adivinha,
+            brincadeira, desafio com cronômetro e mais. Leiam em voz alta
+            e vivam o momento.
+          </li>
+
+          <li>
+            Quando a carta tiver cronômetro ou contagem, é só tocar no botão.
           </li>
 
           <li>
             Usem <b>Próximo</b> para avançar e concluir a jogada,
-            ou <b>Outra</b> para trocar de carta.
+            ou <b>Outra</b> para trocar de carta. Qualquer um pode trocar
+            a carta a qualquer momento, sem precisar explicar.
           </li>
 
           <li>
             O jogo alterna automaticamente entre os dois jogadores.
+            Uma rodada se completa quando os dois jogaram.
           </li>
 
         </ol>
@@ -405,6 +404,7 @@
     ></div>
 
 
+    <script src="cards.js"></script>
     <script src="script.js"></script>
 
   </body>

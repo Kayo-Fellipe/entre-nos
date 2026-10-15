@@ -8,111 +8,13 @@
   "use strict";
 
   /* ============================================================
-     1. DADOS — Categorias, intensidades, cartas e posições
-     Para adicionar conteúdo, basta inserir novos itens nos
-     arrays abaixo. Cada carta: { cat, int, icon, text }.
+     1. DADOS — vêm de cards.js (window.EntreNosData)
+     Para editar o conteúdo, mexa em cards.js.
      ============================================================ */
-
-
-const CATEGORIES = [
-  {
-    id: "beijos",
-    name: "Beijos",
-    icon: `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="24"
-           height="24"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
-      </svg>
-    `
-  },
-
-  {
-    id: "intimidade",
-    name: "Intimidade",
-    icon: `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="24"
-           height="24"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        <path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/>
-      </svg>
-    `
-  },
-
-  {
-    id: "desafios",
-    name: "Desafios",
-    icon: `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="24"
-           height="24"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        <path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>
-      </svg>
-    `
-  },
-
-  {
-    id: "posicoes",
-    name: "Posições",
-    icon: `
-      <svg xmlns="http://www.w3.org/2000/svg"
-           width="24"
-           height="24"
-           viewBox="0 0 24 24"
-           fill="none"
-           stroke="currentColor"
-           stroke-width="2"
-           stroke-linecap="round"
-           stroke-linejoin="round">
-        <path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/>
-        <path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/>
-        <path d="M12 4v6"/>
-        <path d="M2 18h20"/>
-      </svg>
-    `
-  }
-];
-
-  
-
-
-  const INTENSITIES = [
-    {
-      id: "leve",
-      name: "Leve"
-    },
-  
-    {
-      id: "picante",
-      name: "Picante"
-    },
-  
-    {
-      id: "intenso",
-      name: "Intenso"
-    }
-  ];
-
-  // Helper para criar cartas
-  const card = (cat, int, icon, text) => ({ cat, int, icon, text });
+  const D = window.EntreNosData;
+  if (!D) { console.error("cards.js não foi carregado."); return; }
+  const CATEGORIES = D.categories;
+  const INTENSITIES = D.intensities;
 
   function formatLabel(value) {
     if (value === null || value === undefined) return "";
@@ -121,6 +23,7 @@ const CATEGORIES = [
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }
 
+<<<<<<< HEAD
   const CARDS = [
   // =========================================================
   // BEIJOS — 40 CARTAS
@@ -357,6 +260,13 @@ const CATEGORIES = [
     edge: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="30" cy="18" r="5"/><path d="M30 24c0 10 0 18 0 26"/><path d="M14 50h52"/><path d="M14 50c0 6 0 12 0 16"/><path d="M66 50c0 6 0 12 0 16"/></svg>',
     wall: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 10v60"/><circle cx="40" cy="20" r="5"/><path d="M40 26c0 10 0 18 0 26"/><path d="M40 36c-10 0-20 0-26 0"/><path d="M40 52c-10 0-20 0-26 0"/></svg>',
   };
+=======
+  function positionImageUrl(p) {
+    if (!p.image) return "";
+    if (/^https?:\/\//i.test(p.image)) return p.image; // URL completa
+    return D.positionImageBase ? D.positionImageBase + p.image : "";
+  }
+>>>>>>> 9b6080b (up)
 
   /* ============================================================
      3. ESTADO + localStorage
@@ -364,8 +274,9 @@ const CATEGORIES = [
   const STORAGE_KEY = "entre-nos-settings-v1";
 
   const defaultSettings = {
-    categories: ["beijos", "intimidade", "desafios", "posicoes"],
+    categories: ["conexao", "diversao", "carinho", "intimidade", "posicoes"],
     intensity: "picante",
+    mode: "livre",   // "livre" | "noite"
     player1: "",
     player2: "",
   };
@@ -376,7 +287,10 @@ const CATEGORIES = [
     deck: [],        // baralho filtrado atual
     drawIndex: 0,    // próxima posição do deck embaralhado
     round: 1,
-    cardNum: 0,
+    mode: "livre",
+    reserve: {},     // cartas extras por etapa (Noite de Encontro)
+    ended: false,
+    turnsPlayed: 0,  // cada jogada concluída; 2 jogadas = 1 rodada
     turn: 1,         // 1 ou 2
     currentCard: null,
   };
@@ -396,6 +310,17 @@ const CATEGORIES = [
           if (!merged.categories.includes("intimidade")) merged.categories.push("intimidade");
         }
       }
+      // Migração v2: "beijos" virou "carinho" e "desafios" virou "diversao";
+      // "conexao" é nova e entra automaticamente
+      if (Array.isArray(merged.categories)) {
+        const map = { beijos: "carinho", desafios: "diversao" };
+        const hadOld = merged.categories.some((c) => map[c]);
+        merged.categories = Array.from(new Set(merged.categories.map((c) => map[c] || c)));
+        if (hadOld && !merged.categories.includes("conexao")) merged.categories.unshift("conexao");
+        merged.categories = merged.categories.filter((c) => CATEGORIES.some((x) => x.id === c));
+        if (!merged.categories.length) merged.categories = [...defaultSettings.categories];
+      }
+      if (merged.mode !== "livre" && merged.mode !== "noite") merged.mode = "livre";
       return merged;
     } catch {
       return { ...defaultSettings };
@@ -460,23 +385,54 @@ const CATEGORIES = [
     const target = $(`.screen[data-screen="${screenName}"]`);
     if (target) target.classList.add("is-active");
 
+    if (screenName !== "game") clearWidgets();
     if (screenName === "game") startGame();
-    if (screenName === "positions") renderPositions();
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  let lastFocus = null;
+
   function openModal(name) {
     const m = $(`.modal[data-modal="${name}"]`);
-    if (m) m.classList.add("is-open");
+    if (!m) return;
+    lastFocus = document.activeElement;
+    m.classList.add("is-open");
+    m.setAttribute("aria-hidden", "false");
+    const closeBtn = $(".modal-close", m);
+    if (closeBtn) closeBtn.focus();
   }
   function closeModal() {
-    $$(".modal.is-open").forEach((m) => m.classList.remove("is-open"));
+    $$(".modal.is-open").forEach((m) => {
+      m.classList.remove("is-open");
+      m.setAttribute("aria-hidden", "true");
+    });
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    lastFocus = null;
   }
 
   /* ============================================================
      6. TELA DE CONFIGURAÇÃO — render e interação
      ============================================================ */
+  const MODES = [
+    { id: "livre", name: "Livre", desc: "Cartas variadas, no seu ritmo" },
+    { id: "noite", name: "Noite de Encontro", desc: "Sessão guiada: começa leve e vai esquentando" },
+  ];
+
   function renderSetup() {
+    // Modo de jogo
+    const modeWrap = $("#modeGrid");
+    modeWrap.innerHTML = "";
+    MODES.forEach((m) => {
+      const opt = document.createElement("button");
+      opt.type = "button";
+      opt.className = "int-opt mode-opt" + (state.settings.mode === m.id ? " is-selected" : "");
+      opt.dataset.mode = m.id;
+      opt.innerHTML = `<span class="int-checkbox"></span>
+        <span class="int-text"><span class="int-name">${m.name}</span><span class="int-desc">${m.desc}</span></span>`;
+      opt.addEventListener("click", () => { state.settings.mode = m.id; saveSettings(); renderSetup(); });
+      modeWrap.appendChild(opt);
+    });
+
     // Categorias
     const catWrap = $("#categoryChips");
     catWrap.innerHTML = "";
@@ -509,6 +465,13 @@ const CATEGORIES = [
     opt.addEventListener("click", () => setIntensity(it.id));
     intWrap.appendChild(opt);
   });
+
+    // Ajuda da intensidade
+    const curInt = INTENSITIES.find((i) => i.id === state.settings.intensity);
+    const help = $("#intHelp");
+    if (help && curInt) {
+      help.textContent = curInt.desc + (curInt.id === "leve" ? "." : ". Inclui também as cartas dos níveis anteriores.");
+    }
 
     // Nomes
     $("#player1Name").value = state.settings.player1;
@@ -546,40 +509,140 @@ const CATEGORIES = [
   }
 
   /* ============================================================
-     7. JOGO — baralho, sorteio, ações
+     7. JOGO — baralho, sorteio, formatos e ações
      ============================================================ */
-  function buildDeck() {
-    const cats = state.settings.categories;
-    const intId = state.settings.intensity;
-    // Permite todas as intensidades até o nível escolhido (crescente)
-    const intOrder = ["leve", "picante", "intenso"];
-    const maxIdx = intOrder.indexOf(intId);
-    const allowedInts = intOrder.slice(0, maxIdx + 1);
+  const INT_ORDER = ["leve", "picante", "intenso"];
 
-    // Filtra cartas estáticas
-    let filtered = CARDS.filter(
-      (c) => cats.includes(c.cat) && allowedInts.includes(c.int)
-    );
+  function allowedInts() {
+    const idx = INT_ORDER.indexOf(state.settings.intensity);
+    return INT_ORDER.slice(0, (idx < 0 ? 1 : idx) + 1);
+  }
 
-    // Se a categoria 'posicoes' estiver selecionada, inclua cartas geradas
-    // a partir do array POSITIONS usando imagens remotas (links).
-    if (cats.includes("posicoes")) {
-      const posCards = POSITIONS.map((p) => ({
+  function playerName(n) {
+    const v = n === 1 ? state.settings.player1 : state.settings.player2;
+    return v || `Jogador ${n}`;
+  }
+
+  // {atual} = quem está na vez; {outro} = a outra pessoa
+  function fillTokens(str) {
+    if (!str) return "";
+    const cur = state.turn;
+    const oth = cur === 1 ? 2 : 1;
+    return str.replace(/\{atual\}/g, playerName(cur)).replace(/\{outro\}/g, playerName(oth));
+  }
+
+  function cardWho(c) {
+    const f = D.formats[c.fmt];
+    return c.who || (f && f.who) || "vez";
+  }
+
+  // Cartas ilustradas de posições (geradas de D.positions)
+  function positionCards(ints) {
+    return D.positions
+      .filter((p) => ints.includes(p.int))
+      .map((p, i) => ({
+        id: "posicoes-img-" + String(i + 1).padStart(2, "0"),
         cat: "posicoes",
-        int: "leve",
-        icon: "posicoes",
-        text: (p.name || "Posição") + (p.desc ? " — " + p.desc : ""),
-        positionImage: p.positionImage || DEFAULT_POSITION_IMAGE,
-        positionName: p.name || "Posição"
+        int: p.int,
+        fmt: "acao",
+        who: "ambos",
+        text: p.name + (p.desc ? " — " + p.desc : ""),
+        positionImage: positionImageUrl(p),
+        positionName: p.name,
       }));
-      filtered = filtered.concat(posCards);
-    }
+  }
 
-    return shuffle(filtered);
+  function cardPool(cats, ints) {
+    let pool = D.cards.filter((c) => cats.includes(c.cat) && ints.includes(c.int));
+    if (cats.includes("posicoes")) pool = pool.concat(positionCards(ints));
+    return pool;
+  }
+
+  const hasTag = (c, t) => (c.tags || []).includes(t);
+
+  /* Embaralha evitando repetir o formato em sequência e
+     evitando 3 cartas seguidas da mesma categoria. */
+  function smartOrder(cards, last) {
+    const pool = shuffle(cards);
+    const out = [];
+    let prev = last || null;
+    let prev2 = null;
+    while (pool.length) {
+      const okFmt = (c) => !prev || c.fmt !== prev.fmt;
+      const okCat = (c) => !(prev && prev2 && c.cat === prev.cat && c.cat === prev2.cat);
+      let idx = pool.findIndex((c) => okFmt(c) && okCat(c));
+      if (idx < 0) idx = pool.findIndex(okFmt);
+      if (idx < 0) idx = 0;
+      const [pick] = pool.splice(idx, 1);
+      out.push(pick);
+      prev2 = prev;
+      prev = pick;
+    }
+    return out;
+  }
+
+  function buildFreeDeck(last) {
+    const pool = cardPool(state.settings.categories, allowedInts()).filter((c) => !hasTag(c, "fim"));
+    return smartOrder(pool, last);
+  }
+
+  /* Noite de Encontro: etapas em ordem, ~16 cartas */
+  function buildGuidedDeck() {
+    const cats = state.settings.categories;
+    const allowed = allowedInts();
+    const deck = [];
+    state.reserve = {};
+    let prev = null;
+
+    D.stages.forEach((stage) => {
+      const stageCats = stage.cats.filter((c) => cats.includes(c));
+      if (!stageCats.length) return;
+
+      let ints = stage.ints.filter((i) => allowed.includes(i));
+      if (!ints.length) ints = allowed;
+
+      let pool = cardPool(stageCats, ints).filter((c) =>
+        stage.only ? stage.tags.every((t) => hasTag(c, t)) : !hasTag(c, "fim")
+      );
+      if (!pool.length) return;
+
+      let rest = shuffle(pool);
+      const chosen = [];
+
+      // Cartas preferidas da etapa (ex.: "abertura" no aquecimento)
+      if (stage.tags && !stage.only) {
+        // até 2 cartas preferidas, com formatos diferentes entre si
+        const pref = [];
+        rest.filter((c) => stage.tags.some((t) => hasTag(c, t))).forEach((c) => {
+          if (pref.length < 2 && !pref.some((x) => x.fmt === c.fmt)) pref.push(c);
+        });
+        pref.forEach((c) => chosen.push(c));
+        rest = rest.filter((c) => !pref.includes(c));
+      }
+
+      while (chosen.length < stage.n && rest.length) {
+        const last = chosen[chosen.length - 1] || prev;
+        let idx = rest.findIndex((c) => !last || c.fmt !== last.fmt);
+        if (idx < 0) idx = 0;
+        chosen.push(rest.splice(idx, 1)[0]);
+      }
+
+      if (stage.ascending) {
+        chosen.sort((a, b) => INT_ORDER.indexOf(a.int) - INT_ORDER.indexOf(b.int));
+      }
+
+      chosen.forEach((c) => deck.push({ ...c, stage: stage.id }));
+      state.reserve[stage.id] = rest.map((c) => ({ ...c, stage: stage.id }));
+      prev = chosen[chosen.length - 1] || prev;
+    });
+
+    return deck;
   }
 
   function startGame() {
-    state.deck = buildDeck();
+    clearWidgets();
+    state.mode = state.settings.mode === "noite" ? "noite" : "livre";
+    state.deck = state.mode === "noite" ? buildGuidedDeck() : buildFreeDeck();
     if (state.deck.length === 0) {
       showToast("Nenhuma carta para essas escolhas. Ajuste as categorias.");
       goTo("setup");
@@ -587,30 +650,47 @@ const CATEGORIES = [
     }
     state.drawIndex = 0;
     state.round = 1;
-    state.cardNum = 0;
-    state.score = 0;
+    state.turnsPlayed = 0;
     state.turn = 1;
+    state.ended = false;
+    state.currentCard = null;
+    setEndUi(false);
     drawCard(true);
   }
 
   function drawCard(noAnim) {
-    // Reembaralha se acabou
     if (state.drawIndex >= state.deck.length) {
-      state.deck = shuffle(state.deck);
+      if (state.mode === "noite") { showEnd(); return; }
+      // Modo livre: reembaralha sem repetir a carta anterior
+      state.deck = buildFreeDeck(state.currentCard);
       state.drawIndex = 0;
     }
     const c = state.deck[state.drawIndex];
     state.drawIndex++;
     state.currentCard = c;
-    state.cardNum++;
     renderCard(c, noAnim);
     updateHUD();
     updateTurn();
   }
-  
-  function getCategoryTotal(categoryId) {
-    return state.deck.filter(card => card.cat === categoryId).length;
+
+  function showEnd() {
+    state.ended = true;
+    const end = {
+      id: "fim",
+      cat: "fim",
+      fmt: "fim",
+      who: "ambos",
+      text: "Vocês chegaram ao fim da noite. Obrigado por dedicarem esse tempo um ao outro.",
+      hint: "Que tal terminar com um beijo?",
+    };
+    state.currentCard = end;
+    renderCard(end);
+    updateHUD();
+    updateTurn();
+    setEndUi(true);
+    burstParticles();
   }
+<<<<<<< HEAD
   
  function renderCard(c, noAnim) {
   const el = $("#gameCard");
@@ -654,39 +734,271 @@ const CATEGORIES = [
             ${c.positionName || "Posição"}
           </div>
         `;
-      }
-    } else {
-      iconEl.innerHTML = cat ? cat.icon : "";
-    }
-    /* =========================================
-       TEXTO
-       ========================================= */
-    $("#cardText").textContent = c.text;
-     // Ajusta tamanho do texto se necessário para evitar barra de rolagem
-     adjustCardText();
-    /* =========================================
-       CONTADOR
-       ========================================= */
-    $("#cardIndex").textContent = state.cardNum;
-    $("#cardTotal").textContent =
-      getCategoryTotal(c.cat);
-  };
-  if (noAnim) {
-    apply();
-    el.classList.remove(
-      "is-flip-in",
-      "is-flip-out"
-    );
-    return;
+=======
+
+  function setEndUi(isEnd) {
+    $("#nextLabel").textContent = isEnd ? "Concluir" : "Próximo";
+    $("#anotherBtn").disabled = isEnd;
   }
-  el.classList.remove("is-flip-in");
-  el.classList.add("is-flip-out");
-  setTimeout(() => {
-    apply();
-    el.classList.remove("is-flip-out");
-    el.classList.add("is-flip-in");
-  }, 280);
-}
+
+  /* ---------- Widgets da carta: cronômetro, contagem, escolhas ---------- */
+  let timerHandle = null;
+  let cdHandle = null;
+
+  function clearWidgets() {
+    if (timerHandle) { clearInterval(timerHandle); timerHandle = null; }
+    if (cdHandle) { clearTimeout(cdHandle); cdHandle = null; }
+  }
+
+  function fmtTime(sec) {
+    const m = Math.floor(sec / 60);
+    return `${m}:${String(sec % 60).padStart(2, "0")}`;
+  }
+
+  let audioCtx = null;
+  function ensureAudio() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    } catch { return null; }
+  }
+  function beep() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    try {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 880;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.22, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.6);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(); o.stop(ctx.currentTime + 0.65);
+    } catch { /* ignore */ }
+  }
+  function buzz(pattern) {
+    try { if (navigator.vibrate) navigator.vibrate(pattern); } catch { /* ignore */ }
+  }
+
+  function makeXBtn(mainText, subText) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "xbtn";
+    const main = document.createElement("span");
+    main.className = "xbtn-main";
+    main.textContent = mainText;
+    const sub = document.createElement("span");
+    sub.className = "xbtn-sub";
+    sub.textContent = subText;
+    btn.append(main, sub);
+    return { btn, main, sub };
+  }
+
+  function buildTimer(seconds) {
+    const { btn, main, sub } = makeXBtn(fmtTime(seconds), "Toque para iniciar");
+    const setIdle = () => {
+      btn.classList.remove("is-running", "is-done");
+      main.textContent = fmtTime(seconds);
+      sub.textContent = "Toque para iniciar";
+    };
+    btn.addEventListener("click", () => {
+      if (timerHandle) { clearInterval(timerHandle); timerHandle = null; setIdle(); return; }
+      ensureAudio();
+      const end = Date.now() + seconds * 1000;
+      btn.classList.remove("is-done");
+      btn.classList.add("is-running");
+      sub.textContent = "Toque para parar";
+      const tick = () => {
+        const left = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+        main.textContent = fmtTime(left);
+        if (left <= 0) {
+          clearInterval(timerHandle);
+          timerHandle = null;
+          btn.classList.remove("is-running");
+          btn.classList.add("is-done");
+          main.textContent = "Tempo!";
+          sub.textContent = "Toque para repetir";
+          buzz([200, 100, 200]);
+          beep();
+        }
+      };
+      tick();
+      timerHandle = setInterval(tick, 250);
+    });
+    return btn;
+  }
+
+  function buildCountdown() {
+    const { btn, main, sub } = makeXBtn("Contar até 3", "Toquem quando estiverem prontos");
+    btn.addEventListener("click", () => {
+      if (cdHandle) return;
+      ensureAudio();
+      const steps = ["3", "2", "1", "Já!"];
+      let i = 0;
+      btn.classList.add("is-running");
+      sub.textContent = "";
+      const run = () => {
+        main.textContent = steps[i];
+        if (i < 3) buzz(40); else { buzz([120, 60, 120]); beep(); }
+        i++;
+        if (i < steps.length) {
+          cdHandle = setTimeout(run, 900);
+        } else {
+          cdHandle = setTimeout(() => {
+            cdHandle = null;
+            btn.classList.remove("is-running");
+            main.textContent = "Contar de novo";
+          }, 1400);
+        }
+      };
+      run();
+    });
+    return btn;
+  }
+
+  function buildOptions(opts) {
+    const wrap = document.createElement("div");
+    wrap.className = "xopts";
+    opts.forEach((txt, i) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "xopt";
+      const letter = document.createElement("span");
+      letter.className = "xopt-letter";
+      letter.textContent = "AB"[i] || String(i + 1);
+      const t = document.createElement("span");
+      t.className = "xopt-text";
+      t.textContent = fillTokens(txt);
+      b.append(letter, t);
+      b.addEventListener("click", () => {
+        const all = $$(".xopt", wrap);
+        const already = b.classList.contains("is-picked");
+        all.forEach((x) => x.classList.remove("is-picked", "is-dim"));
+        if (!already) {
+          b.classList.add("is-picked");
+          all.forEach((x) => { if (x !== b) x.classList.add("is-dim"); });
+        }
+      });
+      wrap.appendChild(b);
+    });
+    return wrap;
+  }
+
+  function renderExtra(c, f) {
+    clearWidgets();
+    const box = $("#cardExtra");
+    box.textContent = "";
+    let node = null;
+    if (c.options && c.options.length) node = buildOptions(c.options);
+    else if (c.seconds) node = buildTimer(c.seconds);
+    else if (f && f.countdown) node = buildCountdown();
+    if (node) box.appendChild(node);
+    box.hidden = !node;
+  }
+
+  /* ---------- Render da carta ---------- */
+  function renderCard(c, noAnim) {
+    const el = $("#gameCard");
+    const apply = () => {
+      const isEnd = c.cat === "fim";
+      const f = D.formats[c.fmt];
+      const cat = isEnd
+        ? { name: "Noite de Encontro", icon: catById("carinho").icon }
+        : catById(c.cat);
+
+      // Categoria
+      $("#cardCategoryName").textContent = cat ? cat.name : c.cat;
+      $("#cardCategoryIcon").innerHTML = cat ? cat.icon : "";
+
+      // Intensidade (com nome adaptado à categoria)
+      const intEl = $("#cardIntensity");
+      const intName =
+        (D.intLabels[c.cat] && D.intLabels[c.cat][c.int]) ||
+        (intById(c.int) ? intById(c.int).name : "");
+      intEl.textContent = intName;
+      intEl.hidden = !intName;
+
+      // Ícone / imagem central
+      const iconEl = $("#cardIcon");
+      const isPosition = c.cat === "posicoes" && !!c.positionName;
+      el.classList.toggle("card--compact", !isPosition);
+      if (isPosition) {
+        iconEl.textContent = "";
+        const showPlaceholder = () => {
+          iconEl.textContent = "";
+          const ph = document.createElement("div");
+          ph.className = "card-position-placeholder";
+          ph.textContent = c.positionName;
+          iconEl.appendChild(ph);
+        };
+        if (c.positionImage) {
+          const img = document.createElement("img");
+          img.className = "card-position-image";
+          img.alt = c.positionName;
+          img.addEventListener("error", showPlaceholder, { once: true });
+          img.src = c.positionImage;
+          iconEl.appendChild(img);
+        } else {
+          showPlaceholder();
+        }
+      } else {
+        iconEl.innerHTML = cat ? cat.icon : "";
+>>>>>>> 9b6080b (up)
+      }
+
+      // Formato
+      const fmtEl = $("#cardFormat");
+      fmtEl.textContent = f ? f.label : "";
+      fmtEl.hidden = !f;
+
+      // Texto e dica
+      $("#cardText").textContent = fillTokens(c.text);
+      const hintText = fillTokens(c.hint !== undefined ? c.hint : f ? f.hint : "");
+      const hintEl = $("#cardHint");
+      hintEl.textContent = hintText;
+      hintEl.hidden = !hintText;
+
+      // Cronômetro / contagem / escolhas
+      renderExtra(c, f);
+
+      // Ajusta o tamanho do texto depois de montar tudo
+      adjustCardText();
+      updateStage();
+    };
+    if (noAnim) {
+      apply();
+      el.classList.remove("is-flip-in", "is-flip-out");
+      return;
+    }
+    el.classList.remove("is-flip-in");
+    el.classList.add("is-flip-out");
+    setTimeout(() => {
+      apply();
+      el.classList.remove("is-flip-out");
+      el.classList.add("is-flip-in");
+    }, 280);
+  }
+
+  function updateStage() {
+    const line = $("#stageLine");
+    const guided = state.mode === "noite";
+    line.hidden = !guided;
+    if (!guided) return;
+    const c = state.currentCard;
+    let name = "Fim";
+    if (c && c.stage) {
+      const st = D.stages.find((x) => x.id === c.stage);
+      name = st ? st.name : "";
+    }
+    $("#stageName").textContent = state.ended ? "Fim da noite" : name;
+    const total = Math.max(1, state.deck.length);
+    const done = state.ended ? total : Math.max(0, state.drawIndex - 1);
+    $("#stageBar").style.width = Math.round((done / total) * 100) + "%";
+  }
 
   function updateHUD() {
     $("#roundCount").textContent = state.round;
@@ -694,61 +1006,75 @@ const CATEGORIES = [
 
   function updateTurn() {
     const isPlayer1 = state.turn === 1;
-  
-    const name = isPlayer1
-      ? state.settings.player1 || "Jogador 1"
-      : state.settings.player2 || "Jogador 2";
-  
+    const c = state.currentCard;
+    const both = c && cardWho(c) === "ambos";
+    const isEnd = c && c.cat === "fim";
+
+    $("#turnLabel").textContent = isEnd ? "Para" : both ? "Começa" : "Vez de";
     const el = $("#turnName");
     const avatar = $("#turnAvatar");
-  
-    // Atualiza o nome
-    el.textContent = name;
-  
-    // Atualiza a cor do nome
+    el.textContent = isEnd ? "Vocês dois" : playerName(state.turn);
     el.classList.toggle("p1", isPlayer1);
     el.classList.toggle("p2", !isPlayer1);
-  
-    // Atualiza a cor do ícone
     avatar.classList.toggle("p1", isPlayer1);
     avatar.classList.toggle("p2", !isPlayer1);
   }
 
   function nextTurn() {
     state.turn = state.turn === 1 ? 2 : 1;
-    state.round++;
+    state.turnsPlayed++;
+    state.round = Math.floor(state.turnsPlayed / 2) + 1;
+  }
+
+  // Evita cliques repetidos durante a animação da carta
+  let busy = false;
+  function lock(ms = 320) {
+    if (busy) return false;
+    busy = true;
+    setTimeout(() => { busy = false; }, ms);
+    return true;
   }
 
   // ---- Ações ----
   function actionNext() {
+    if (!lock()) return;
+    if (state.ended) {
+      clearWidgets();
+      setEndUi(false);
+      goTo("setup");
+      showToast("Que a noite continue por aí.");
+      return;
+    }
     nextTurn();
     drawCard();
-    showToast("Próxima rodada.");
   }
 
+  // "Outra": troca a carta para a mesma pessoa (não avança a vez).
+  // Serve também para recusar uma carta com tranquilidade.
   function actionAnother() {
-    state.cardNum--; // não conta como jogada nova no índice
+    if (!lock()) return;
+    if (state.ended) return;
+    if (state.mode === "noite") {
+      const cur = state.currentCard;
+      const list = (cur && state.reserve[cur.stage]) || [];
+      if (!list.length) { showToast("Não há mais cartas nesta etapa."); return; }
+      const repl = list.shift();
+      state.deck[state.drawIndex - 1] = repl;
+      state.currentCard = repl;
+      renderCard(repl);
+      updateTurn();
+      return;
+    }
     drawCard();
-    showToast("Outra carta.");
-  }
-
-  function actionSkip() {
-    nextTurn();
-    drawCard();
-    showToast("Carta pulada.");
   }
 
   function actionRestart() {
-    state.round = 1;
-    state.cardNum = 0;
-    state.turn = 1;
-    state.deck = buildDeck();
-    state.drawIndex = 0;
-    drawCard(true);
+    startGame();
     showToast("Jogo reiniciado.");
   }
 
   /* ============================================================
+<<<<<<< HEAD
      8. POSIÇÕES — render
      ============================================================ */
   function renderPositions() {
@@ -798,6 +1124,9 @@ const CATEGORIES = [
 
   /* ============================================================
      9. PARTÍCULAS / CONFETES
+=======
+     8. PARTÍCULAS / CONFETES
+>>>>>>> 9b6080b (up)
      ============================================================ */
   const canvas = $("#particles");
   const ctx = canvas.getContext("2d");
@@ -814,6 +1143,8 @@ const CATEGORIES = [
   }
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
+
+  let particlesRunning = false;
 
   function burstParticles() {
     const colors = ["#e91e63", "#9c27b0", "#ff6b9d", "#c084fc", "#fff5f8"];
@@ -834,6 +1165,10 @@ const CATEGORIES = [
         rot: Math.random() * Math.PI,
         vr: (Math.random() - 0.5) * 0.2,
       });
+    }
+    if (!particlesRunning) {
+      particlesRunning = true;
+      requestAnimationFrame(tickParticles);
     }
   }
 
@@ -859,12 +1194,15 @@ const CATEGORIES = [
       ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 1.4);
       ctx.restore();
     }
-    requestAnimationFrame(tickParticles);
+    if (particles.length > 0) {
+      requestAnimationFrame(tickParticles);
+    } else {
+      particlesRunning = false;
+    }
   }
-  tickParticles();
 
   /* ============================================================
-     10. BIND DE EVENTOS
+     9. BIND DE EVENTOS
      ============================================================ */
   function bindEvents() {
     // Navegação por data-goto
@@ -890,7 +1228,7 @@ const CATEGORIES = [
   }
 
   /* ============================================================
-     11. INIT
+     10. INIT
      ============================================================ */
   function init() {
     renderSetup();

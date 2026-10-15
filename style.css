@@ -95,7 +95,7 @@ body {
 button,
 input { font-family: inherit; color: inherit; }
 
-button { background: none; border: none; cursor: pointer; }
+button { background: none; border: none; cursor: pointer; touch-action: manipulation; }
 
 ::selection { background: var(--red-400); color: #fff; }
 
@@ -538,16 +538,6 @@ button { background: none; border: none; cursor: pointer; }
   transition: border-color var(--t-fast) var(--ease);
 }
 .field input:focus { outline: none; border-color: var(--red-400); }
-.player-dot {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 12px; height: 12px;
-  border-radius: 50%;
-}
-.dot-p1 { background: var(--red-400); }
-.dot-p2 { background: var(--plum-300); }
 .player-x { color: var(--muted-2); font-size: 1.2rem; }
 
 /* ============================================================
@@ -581,8 +571,8 @@ button { background: none; border: none; cursor: pointer; }
   font-size: 0.85rem;
   color: var(--muted);
 }
+.hud-center { white-space: nowrap; }
 .hud-center b { color: var(--white); font-weight: 600; }
-.hud-divider { width: 1px; height: 18px; background: var(--glass-brd); }
 
 .turn-bar {
   display: flex;
@@ -683,6 +673,9 @@ button { background: none; border: none; cursor: pointer; }
   0%   { opacity: 0; transform: rotateY(90deg) translateY(10px) scale(0.95); }
   100% { opacity: 1; transform: rotateY(0) translateY(0) scale(1); }
 }
+.card.is-flip-out { animation: cardOut 0.28s var(--ease-soft) forwards; }
+.card.is-flip-in  { animation: cardIn 0.35s var(--ease) both; }
+
 @keyframes cardOut {
   0%   { opacity: 1; transform: rotateY(0) scale(1); }
   100% { opacity: 0; transform: rotateY(-90deg) scale(0.95); }
@@ -747,7 +740,6 @@ button { background: none; border: none; cursor: pointer; }
   font-size: 0.82rem;
   text-transform: none;
 }
-.card-int .int-icon { display: inline-flex; width:18px; height:18px; color: var(--red-300); filter: drop-shadow(0 6px 18px rgba(233,30,99,0.18)); }
 .card-icon {
   font-size: 6.4rem;
   line-height: 1;
@@ -782,14 +774,18 @@ button { background: none; border: none; cursor: pointer; }
   color: #fff7fb;
   text-shadow: 0 6px 30px rgba(194,24,91,0.06);
   padding: 0 6px;
-  /* Prevent internal scrollbar — JS will reduce font size for long text */
-  overflow: visible;
-  flex: 0 1 auto;
+  /* O JS mede o overflow e aplica text--small / text--xsmall */
+  overflow: hidden;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Classes applied by JS when text is too long */
-.card-text.text--small { font-size: 0.95rem; }
-.card-text.text--xsmall { font-size: 0.85rem; }
+.screen--game .card-text.text--small  { font-size: 0.95rem; }
+.screen--game .card-text.text--xsmall { font-size: 0.85rem; }
 .card-bottom {
   margin-top: auto;
   width: 100%;
@@ -868,6 +864,7 @@ button { background: none; border: none; cursor: pointer; }
   width: 100%;
 }
 .game-actions .btn--soft { padding: 14px 8px; font-size: 0.9rem; }
+<<<<<<< HEAD
 .game-secondary {
   display: flex;
   justify-content: center;
@@ -970,6 +967,8 @@ button { background: none; border: none; cursor: pointer; }
 .pos-dots { display: flex; gap: 3px; }
 .pos-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 245, 248, 0.18); }
 .pos-dot.on { background: var(--red-400); }
+=======
+>>>>>>> 9b6080b (up)
 
 /* ============================================================
    MODAL
@@ -1070,11 +1069,6 @@ button { background: none; border: none; cursor: pointer; }
   .chip-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-@media (max-width: 380px) {
-  .game-actions { grid-template-columns: 1fr 1.3fr 1fr; gap: 6px; }
-  .game-actions .btn--soft { padding: 14px 4px; font-size: 0.82rem; }
-  .card-text { font-size: 1.3rem; }
-}
 
 /* ---------- Acessibilidade / motion ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -1313,4 +1307,211 @@ button { background: none; border: none; cursor: pointer; }
     height: 360px;
     padding-inline: 12px;
   }
+<<<<<<< HEAD
 }
+=======
+}
+
+/* ---------- Foco visível (teclado) ---------- */
+:focus-visible {
+  outline: 2px solid var(--red-300);
+  outline-offset: 3px;
+}
+.field input:focus-visible { outline: none; }
+
+/* ============================================================
+   FORMATOS DE CARTA, MODO DE JOGO E NOITE DE ENCONTRO
+   ============================================================ */
+[hidden] { display: none !important; }
+
+/* ---------- Setup: modo de jogo e ajuda de intensidade ---------- */
+.mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+.mode-opt {
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  padding: 14px 14px;
+}
+.mode-opt .int-checkbox { margin-top: 3px; }
+.int-text { display: flex; flex-direction: column; gap: 5px; }
+.int-text .int-name { line-height: 1.2; }
+.int-desc {
+  font-size: 0.76rem;
+  line-height: 1.3;
+  color: var(--muted);
+}
+.int-help {
+  margin-top: var(--sp-3);
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: center;
+}
+@media (max-width: 380px) {
+  .mode-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Noite de Encontro: etapa e progresso ---------- */
+.stage-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: var(--plum-300);
+  margin-top: -6px;
+}
+.stage-bar {
+  width: 120px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(216, 140, 255, 0.2);
+  overflow: hidden;
+}
+.stage-bar i {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--red-400), var(--plum-400));
+  transition: width 0.5s var(--ease);
+}
+
+/* ---------- Carta: nova composição ---------- */
+.screen--game .card { height: 470px; gap: 10px; }
+.screen--game .card--compact .card-icon { height: 76px; }
+.screen--game .card--compact .card-icon svg { width: 62px; height: 62px; }
+.screen--game .card--compact::before { top: 70px; }
+
+.card-format {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  padding: 3px 14px;
+  border-radius: 999px;
+  border: 1px dashed rgba(216, 140, 255, 0.5);
+  color: var(--plum-300);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.screen--game .card-text {
+  min-height: 0;
+  flex: 1 1 auto;
+}
+.card-hint {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+  align-self: center;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.card-extra {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* ---------- Botão de cronômetro / contagem ---------- */
+.xbtn {
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: 16px;
+  border: 1px solid rgba(216, 140, 255, 0.5);
+  background: rgba(103, 24, 120, 0.4);
+  color: var(--white);
+  transition: background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.xbtn:active { transform: scale(0.98); }
+.xbtn-main {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.xbtn-sub { font-size: 0.72rem; color: var(--muted); min-height: 0.9em; }
+.xbtn.is-running {
+  background: linear-gradient(100deg, rgba(255, 78, 145, 0.35), rgba(165, 42, 211, 0.35));
+  box-shadow: 0 0 22px rgba(241, 59, 145, 0.35);
+}
+.xbtn.is-done {
+  background: linear-gradient(100deg, #ff4e91, #a52ad3);
+  border-color: transparent;
+}
+
+/* ---------- Escolhas A / B ---------- */
+.xopts { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.xopt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(216, 140, 255, 0.4);
+  background: rgba(103, 24, 120, 0.3);
+  color: var(--white);
+  text-align: left;
+  font-size: 0.88rem;
+  line-height: 1.25;
+  transition: background var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.xopt:active { transform: scale(0.99); }
+.xopt-letter {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 140, 255, 0.6);
+  color: var(--plum-300);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.xopt.is-picked {
+  background: linear-gradient(100deg, rgba(255, 78, 145, 0.35), rgba(165, 42, 211, 0.35));
+  border-color: var(--red-400);
+}
+.xopt.is-picked .xopt-letter { background: var(--red-400); border-color: var(--red-400); color: #fff; }
+.xopt.is-dim { opacity: 0.45; }
+
+/* ---------- Botão desativado ---------- */
+.game-actions .btn:disabled { opacity: 0.4; pointer-events: none; }
+
+/* ---------- Telas menores ---------- */
+@media (max-width: 420px) {
+  .screen--game .card { height: 450px; padding: 18px 14px 18px; gap: 8px; }
+  .screen--game .card--compact .card-icon { height: 62px; }
+  .screen--game .card--compact .card-icon svg { width: 52px; height: 52px; }
+  .card-hint { font-size: 0.78rem; }
+  .xopt { font-size: 0.84rem; min-height: 42px; }
+}
+@media (max-width: 340px) {
+  .screen--game .card { height: 430px; }
+}
+
+/* Texto da carta mais legível (peso 400 em vez de 300) */
+.screen--game .card-text {
+  font-weight: 400;
+  font-size: clamp(0.95rem, 3.7vw, 1.15rem);
+}
+.screen--game .card-text.text--small  { font-size: 0.92rem; }
+.screen--game .card-text.text--xsmall { font-size: 0.84rem; }
+>>>>>>> 9b6080b (up)
