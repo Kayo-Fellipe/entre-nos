@@ -910,6 +910,35 @@ button { background: none; border: none; cursor: pointer; }
   width: 120px; height: 120px;
   background: radial-gradient(circle, rgba(233, 30, 99, 0.18), transparent 70%);
 }
+.pos-photo-wrap {
+  width: 100%;
+  height: 180px;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  margin-bottom: var(--sp-3);
+  position: relative;
+  background: rgba(255, 245, 248, 0.03);
+}
+.pos-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--ease);
+}
+.pos-card:hover .pos-photo { transform: scale(1.05); }
+.pos-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  color: var(--red-300);
+}
+.pos-photo-placeholder svg { width: 56px; height: 56px; opacity: 0.7; }
+.pos-photo-placeholder span { font-size: 0.8rem; color: var(--muted); }
 .pos-silhouette {
   width: 100%;
   height: 90px;

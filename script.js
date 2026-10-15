@@ -324,21 +324,25 @@ const CATEGORIES = [
 
   // ---- Posições de casal (descrição textual, sem nudez) ----
   // Cada: { name, desc, difficulty (1-3), intimacy (1-3), shape (id da silhueta) }
+  // ---- Posições de casal ----
+  // Para adicionar ou trocar imagens: basta substituir a URL no campo `positionImage`.
+  // Se a imagem não carregar, um placeholder com o nome da posição é exibido automaticamente.
   const POSITIONS = [
-    { name: "Conchinha", desc: "Deitados de lado, um atrás do outro, encaixados como colheres. Permite penetração vaginal ou anal com intimidade e aconchego.", difficulty: 1, intimacy: 3, shape: "spoon", positionImage: "" },
-    { name: "Olhos nos Olhos", desc: "Um de frente para o outro, deitados de lado. Permite beijos profundos, carícias e conexão visual durante a penetração.", difficulty: 1, intimacy: 3, shape: "face", positionImage: "" },
-    { name: "Missão Serena", desc: "Um por cima do outro, frente a frente. Clássica, permite penetração profunda, beijos e contato total dos corpos.", difficulty: 2, intimacy: 3, shape: "missionary", positionImage: "" },
-    { name: "Cavaleira", desc: "Um sentado, o outro no colo de frente. Quem está por cima controla o ritmo e a profundidade da penetração.", difficulty: 2, intimacy: 3, shape: "lap", positionImage: "" },
-    { name: "Encontro Sentado", desc: "Sentados frente a frente, pernas entrelaçadas. Ritmo lento, penetração profunda e muito contato visual.", difficulty: 2, intimacy: 3, shape: "seated", positionImage: "" },
-    { name: "Costas com Carinho", desc: "Um de quatro, o outro por trás. Permite penetração vaginal ou anal com controle total do ritmo.", difficulty: 2, intimacy: 2, shape: "back", positionImage: "" },
-    { name: "Equilíbrio Profundo", desc: "Um deitado na borda da cama, o outro em pé. Profundidade máxima na penetração, com apoio e intensidade.", difficulty: 3, intimacy: 2, shape: "edge", positionImage: "" },
-    { name: "Abraço em Pé", desc: "Em pé, um sustenta o outro contra a parede. Paixão, força e penetração intensa e espontânea.", difficulty: 3, intimacy: 3, shape: "wall", positionImage: "" },
-    { name: "Sessenta e Nove", desc: "Deitados de lado, um de cabeça para os pés do outro. Sexo oral simultâneo, com prazer mútuo.", difficulty: 2, intimacy: 3, shape: "seated", positionImage: "" },
-    { name: "Cavalgada Reversa", desc: "Um deitado, o outro por cima de costas. Visão diferente e controle total do ritmo para quem está por cima.", difficulty: 2, intimacy: 2, shape: "lap", positionImage: "" },
+    { name: "Conchinha", desc: "Deitados de lado, um atrás do outro, encaixados como colheres. Permite penetração vaginal ou anal com intimidade e aconchego.", difficulty: 1, intimacy: 3, shape: "spoon", positionImage: "https://images.pexels.com/photos/7555900/pexels-photo-7555900.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Olhos nos Olhos", desc: "Um de frente para o outro, deitados de lado. Permite beijos profundos, carícias e conexão visual durante a penetração.", difficulty: 1, intimacy: 3, shape: "face", positionImage: "https://images.pexels.com/photos/9374145/pexels-photo-9374145.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Missão Serena", desc: "Um por cima do outro, frente a frente. Clássica, permite penetração profunda, beijos e contato total dos corpos.", difficulty: 2, intimacy: 3, shape: "missionary", positionImage: "https://images.pexels.com/photos/6559651/pexels-photo-6559651.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Cavaleira", desc: "Um sentado, o outro no colo de frente. Quem está por cima controla o ritmo e a profundidade da penetração.", difficulty: 2, intimacy: 3, shape: "lap", positionImage: "https://images.pexels.com/photos/5217100/pexels-photo-5217100.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Encontro Sentado", desc: "Sentados frente a frente, pernas entrelaçadas. Ritmo lento, penetração profunda e muito contato visual.", difficulty: 2, intimacy: 3, shape: "seated", positionImage: "https://images.pexels.com/photos/5390012/pexels-photo-5390012.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Costas com Carinho", desc: "Um de quatro, o outro por trás. Permite penetração vaginal ou anal com controle total do ritmo.", difficulty: 2, intimacy: 2, shape: "back", positionImage: "https://images.pexels.com/photos/4148969/pexels-photo-4148969.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Equilíbrio Profundo", desc: "Um deitado na borda da cama, o outro em pé. Profundidade máxima na penetração, com apoio e intensidade.", difficulty: 3, intimacy: 2, shape: "edge", positionImage: "https://images.pexels.com/photos/5217111/pexels-photo-5217111.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Abraço em Pé", desc: "Em pé, um sustenta o outro contra a parede. Paixão, força e penetração intensa e espontânea.", difficulty: 3, intimacy: 3, shape: "wall", positionImage: "https://images.pexels.com/photos/14106980/pexels-photo-14106980.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Sessenta e Nove", desc: "Deitados de lado, um de cabeça para os pés do outro. Sexo oral simultâneo, com prazer mútuo.", difficulty: 2, intimacy: 3, shape: "seated", positionImage: "https://images.pexels.com/photos/13765563/pexels-photo-13765563.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
+    { name: "Cavalgada Reversa", desc: "Um deitado, o outro por cima de costas. Visão diferente e controle total do ritmo para quem está por cima.", difficulty: 2, intimacy: 2, shape: "lap", positionImage: "https://images.pexels.com/photos/36766887/pexels-photo-36766887.jpeg?auto=compress&cs=tinysrgb&h=400&w=600" },
   ];
 
-  // URL padrão para imagens de posições (pode ser alterada dinamicamente)
-  const DEFAULT_POSITION_IMAGE = "https://static1.minhavida.com.br/articles/b1/80/b4/e3/15-posicao-sexual-orig-1.jpg";
+  // Placeholder exibido quando uma imagem de posição não carrega.
+  // Não altere a menos que queira mudar a imagem de fallback padrão.
+  const DEFAULT_POSITION_IMAGE = "";
 
   /* ============================================================
      2. SILHUETAS — SVGs abstratos e estilizados (sem nudez)
@@ -640,12 +644,14 @@ const CATEGORIES = [
             src="${c.positionImage}"
             alt="${c.positionName || "Posição"}"
             class="card-position-image"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
           >
+          <div class="card-position-placeholder" style="display:none">${c.positionName || "Posição"}</div>
         `;
       } else {
         iconEl.innerHTML = `
           <div class="card-position-placeholder">
-            Posição
+            ${c.positionName || "Posição"}
           </div>
         `;
       }
@@ -755,8 +761,16 @@ const CATEGORIES = [
       const diffDots = dots(p.difficulty);
       const intDots = dots(p.intimacy);
 
+      const posImage = p.positionImage || "";
+      const imgBlock = posImage
+        ? `<img src="${posImage}" alt="${p.name}" class="pos-photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="pos-photo-placeholder" style="display:none">${SILHOUETTES[p.shape] || ""}<span>${p.name}</span></div>`
+        : `<div class="pos-photo-placeholder">${SILHOUETTES[p.shape] || ""}<span>${p.name}</span></div>`;
+
       cardEl.innerHTML = `
-        <div class="pos-silhouette" style="color: var(--red-300)">${SILHOUETTES[p.shape] || ""}</div>
+        <div class="pos-photo-wrap">
+          ${imgBlock}
+        </div>
         <h3 class="pos-name">${p.name}</h3>
         <p class="pos-desc">${p.desc}</p>
         <div class="pos-meta">
