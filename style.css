@@ -864,8 +864,6 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
   width: 100%;
 }
 .game-actions .btn--soft { padding: 14px 8px; font-size: 0.9rem; }
-<<<<<<< HEAD
-<<<<<<< HEAD
 .game-secondary {
   display: flex;
   justify-content: center;
@@ -968,10 +966,6 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
 .pos-dots { display: flex; gap: 3px; }
 .pos-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 245, 248, 0.18); }
 .pos-dot.on { background: var(--red-400); }
-=======
->>>>>>> 9b6080b (up)
-=======
->>>>>>> 481be2d (up)
 
 /* ============================================================
    MODAL
@@ -1310,12 +1304,6 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
     height: 360px;
     padding-inline: 12px;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-}
-=======
-=======
->>>>>>> 481be2d (up)
 }
 
 /* ---------- Foco visível (teclado) ---------- */
@@ -1520,7 +1508,3 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
 }
 .screen--game .card-text.text--small  { font-size: 0.92rem; }
 .screen--game .card-text.text--xsmall { font-size: 0.84rem; }
-<<<<<<< HEAD
->>>>>>> 9b6080b (up)
-=======
->>>>>>> 481be2d (up)
