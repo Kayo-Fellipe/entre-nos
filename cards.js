@@ -32,31 +32,37 @@
     {
       id: "conexao",
       name: "Conexão",
+      sub: "Perguntas e memórias",
       icon: svg('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/>'),
     },
     {
       id: "diversao",
       name: "Diversão",
+      sub: "Brincadeiras e risadas",
       icon: svg('<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/>'),
     },
     {
       id: "verdade",
       name: "Verdade ou Desafio",
+      sub: "Você escolhe o lado",
       icon: svg('<rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/>'),
     },
     {
       id: "carinho",
       name: "Carinho",
+      sub: "Toques e beijos",
       icon: svg('<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>'),
     },
     {
       id: "intimidade",
       name: "Intimidade",
+      sub: "Desejo e cumplicidade",
       icon: svg('<path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/>'),
     },
     {
       id: "posicoes",
       name: "Posições",
+      sub: "Ideias para os dois",
       icon: svg('<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M12 4v6"/><path d="M2 18h20"/>'),
     },
   ];
@@ -76,16 +82,16 @@
 
   /* ---------- Formatos ---------- */
   const formats = {
-    acao:        { label: "Ação",             who: "vez",   hint: "" },
-    pergunta:    { label: "Pergunta",         who: "ambos", hint: "Cada um responde, um de cada vez." },
-    escolha:     { label: "Escolha",          who: "vez",   hint: "{atual} escolhe e conta o porquê." },
-    adivinha:    { label: "Adivinha",         who: "vez",   hint: "{atual} tenta adivinhar. Depois, {outro} revela." },
-    juntos:      { label: "Juntos",           who: "ambos", hint: "Os dois ao mesmo tempo.", countdown: true },
-    frase:       { label: "Complete a frase", who: "ambos", hint: "Cada um completa, em voz alta." },
-    historia:    { label: "Nossa história",   who: "ambos", hint: "Um conta, o outro escuta. Depois invertam." },
-    brincadeira: { label: "Brincadeira",      who: "vez",   hint: "" },
-    vd:          { label: "Você escolhe",     who: "vez",   hint: "{atual} escolhe. Pode mudar de ideia ou pedir outra carta." },
-    missao:      { label: "Missão",           who: "ambos", hint: "Combinem agora. Vale para depois do jogo." },
+    acao:        { label: "Ação", help: "Uma ação para fazer, às vezes com cronômetro.",             who: "vez",   hint: "" },
+    pergunta:    { label: "Pergunta", help: "Cada um responde, um de cada vez.",         who: "ambos", hint: "Cada um responde, um de cada vez." },
+    escolha:     { label: "Escolha", help: "Duas opções (A ou B). Quem está na vez escolhe.",          who: "vez",   hint: "{atual} escolhe e conta o porquê." },
+    adivinha:    { label: "Adivinha", help: "Um tenta adivinhar algo sobre o outro.",         who: "vez",   hint: "{atual} tenta adivinhar. Depois, {outro} revela." },
+    juntos:      { label: "Juntos", help: "Os dois ao mesmo tempo, com contagem 3, 2, 1.",           who: "ambos", hint: "Os dois ao mesmo tempo.", countdown: true },
+    frase:       { label: "Complete a frase", help: "Cada um completa a frase em voz alta.", who: "ambos", hint: "Cada um completa, em voz alta." },
+    historia:    { label: "Nossa história", help: "Um conta uma lembrança e o outro escuta.",   who: "ambos", hint: "Um conta, o outro escuta. Depois invertam." },
+    brincadeira: { label: "Brincadeira", help: "Algo leve para rir juntos.",      who: "vez",   hint: "" },
+    vd:          { label: "Você escolhe", help: "Quem está na vez escolhe verdade ou desafio.",     who: "vez",   hint: "{atual} escolhe. Pode mudar de ideia ou pedir outra carta." },
+    missao:      { label: "Missão", help: "Um combinado para depois do jogo.",           who: "ambos", hint: "Combinem agora. Vale para depois do jogo." },
   };
 
   /* ---------- Noite de Encontro (sessão guiada) ---------- */

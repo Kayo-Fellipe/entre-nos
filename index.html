@@ -62,126 +62,77 @@
 
       <!-- ============ TELA DE CONFIGURAÇÃO ============ -->
       <section class="screen screen--setup" data-screen="setup">
-        <div class="setup-inner">
+        <div class="st">
 
-          <button class="btn btn--back" data-goto="home" aria-label="Voltar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+          <button class="btn btn--back st-back" data-goto="home" aria-label="Voltar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             Voltar
           </button>
 
-          <h2 class="section-title">Monte o seu jogo</h2>
+          <div class="st-grid">
 
-          <p class="section-subtitle">
-            Escolha o modo, as categorias e o nível de intensidade.
-          </p>
+            <!-- Apresentação + leque de cartas -->
+            <div class="st-hero">
+              <div class="st-head">
+                <h2 class="st-title">Monte o seu jogo</h2>
+                <p class="st-sub">Escolham o clima da noite. A mão de cartas se monta conforme as escolhas.</p>
+              </div>
+              <div class="st-fan" id="stFan" aria-hidden="true"></div>
+            </div>
 
+            <!-- Opções -->
+            <div class="st-panel">
 
-          <!-- Modo de jogo -->
-          <div class="setup-block">
-            <h3 class="block-label">Modo de jogo</h3>
-            <div class="mode-grid" id="modeGrid"></div>
-          </div>
-
-
-          <!-- Categorias -->
-          <div class="setup-block">
-            <h3 class="block-label">Categorias</h3>
-            <div class="chip-grid" id="categoryChips"></div>
-          </div>
-
-
-          <!-- Intensidade -->
-          <div class="setup-block">
-            <h3 class="block-label">Nível de intensidade</h3>
-            <div class="intensity-grid" id="intensityGrid"></div>
-            <p class="int-help" id="intHelp"></p>
-          </div>
-
-
-          <!-- Nomes dos jogadores -->
-          <div class="setup-block">
-
-            <h3 class="block-label">
-              Jogadores <span class="optional">(opcional)</span>
-            </h3>
-
-            <div class="player-names">
-
-              <!-- ===== Jogador 1 ===== -->
-              <div class="field">
-
-                <input
-                  type="text"
-                  id="player1Name"
-                  maxlength="16"
-                  placeholder="Jogador 1"
-                  autocomplete="off"
-                />
-
-                <!-- Ícone Jogador 1 -->
-                <svg
-                  class="player-icon player-icon-p1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-
+              <div class="st-block">
+                <span class="st-label" id="lblMode">Modo de jogo</span>
+                <div class="st-modes" id="modeGrid" role="radiogroup" aria-labelledby="lblMode"></div>
               </div>
 
+              <div class="st-block">
+                <span class="st-label" id="lblCats">Categorias</span>
+                <div class="st-tiles" id="categoryChips" role="group" aria-labelledby="lblCats"></div>
+              </div>
 
-              <!-- Separador -->
-              <span class="player-x">×</span>
+              <div class="st-block">
+                <div class="st-row">
+                  <span class="st-label" id="lblInt">Intensidade</span>
+                  <span class="st-level" id="intLevel"></span>
+                </div>
+                <div class="st-scale">
+                  <div class="st-track" aria-hidden="true"><i id="intFill"></i></div>
+                  <div class="st-steps" id="intensityGrid" role="radiogroup" aria-labelledby="lblInt"></div>
+                  <p class="st-help" id="intHelp"></p>
+                </div>
+              </div>
 
-
-              <!-- ===== Jogador 2 ===== -->
-              <div class="field">
-
-                <input
-                  type="text"
-                  id="player2Name"
-                  maxlength="16"
-                  placeholder="Jogador 2"
-                  autocomplete="off"
-                />
-
-                <!-- Ícone Jogador 2 -->
-                <svg
-                  class="player-icon player-icon-p2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-
+              <div class="st-block">
+                <span class="st-label">Jogadores <span class="st-opt">(opcional)</span></span>
+                <div class="st-players">
+                  <div class="st-field st-p1">
+                    <label class="sr-only" for="player1Name">Nome do jogador 1</label>
+                    <input type="text" id="player1Name" maxlength="16" placeholder="Jogador 1" autocomplete="off" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                  <div class="st-field st-p2">
+                    <label class="sr-only" for="player2Name">Nome do jogador 2</label>
+                    <input type="text" id="player2Name" maxlength="16" placeholder="Jogador 2" autocomplete="off" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                </div>
               </div>
 
             </div>
+
+            <!-- Resumo + iniciar -->
+            <div class="st-cta">
+              <span class="st-summary" id="stSummary"></span>
+              <button class="btn btn--primary btn--lg btn--block" data-goto="game">
+                Iniciar jogo
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+
           </div>
-
-
-          <button class="btn btn--primary btn--lg btn--block" data-goto="game">
-            Iniciar Jogo
-          </button>
-
         </div>
       </section>
 
@@ -316,82 +267,74 @@
 
 
     <!-- ============ MODAL: COMO JOGAR ============ -->
-    <div
-      class="modal"
-      id="modalHowto"
-      data-modal="howto"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="howtoTitle"
-      aria-hidden="true"
-    >
-
-      <div
-        class="modal-backdrop"
-        data-close-modal
-      ></div>
+    <div class="modal" id="modalHowto" data-modal="howto" role="dialog" aria-modal="true" aria-labelledby="howtoTitle" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
 
       <div class="modal-card glass">
+        <header class="modal-head">
+          <h2 class="modal-title" id="howtoTitle">Como jogar</h2>
+          <button class="btn btn--icon modal-close" data-close-modal aria-label="Fechar">✕</button>
+        </header>
 
-        <button
-          class="btn btn--icon modal-close"
-          data-close-modal
-          aria-label="Fechar"
-        >
-          ✕
-        </button>
+        <div class="modal-body">
+          <p class="howto-intro">
+            Entre Nós é um jogo de cartas para dois. A cada rodada, uma carta
+            propõe algo para vocês conversarem, fazerem ou descobrirem juntos.
+          </p>
 
-        <h2 class="modal-title" id="howtoTitle">
-          Como Jogar
-        </h2>
+          <ol class="howto-list">
+            <li>
+              <span class="howto-num">1</span>
+              <div>
+                <span class="howto-step-title">Montem o jogo</span>
+                <p>Escolham o modo, as categorias e o nível de intensidade. No modo <b>Livre</b>, as cartas vêm variadas. A <b>Noite de Encontro</b> é uma sessão guiada de cerca de 20 minutos, que começa leve e vai esquentando aos poucos.</p>
+              </div>
+            </li>
+            <li>
+              <span class="howto-num">2</span>
+              <div>
+                <span class="howto-step-title">Leiam a carta em voz alta</span>
+                <p>O jogo mostra de quem é a vez. Quando a carta é para os dois, ele mostra quem começa.</p>
+              </div>
+            </li>
+            <li>
+              <span class="howto-num">3</span>
+              <div>
+                <span class="howto-step-title">Vivam o momento</span>
+                <p>Se a carta tiver cronômetro ou contagem, toquem no botão. Nas cartas com duas opções, toquem na opção escolhida.</p>
+              </div>
+            </li>
+            <li>
+              <span class="howto-num">4</span>
+              <div>
+                <span class="howto-step-title">Avancem</span>
+                <p>Toquem em <b>Próximo</b> para passar a vez. Uma rodada se completa quando os dois jogaram.</p>
+              </div>
+            </li>
+            <li>
+              <span class="howto-num">5</span>
+              <div>
+                <span class="howto-step-title">Troquem quando quiserem</span>
+                <p><b>Outra</b> troca a carta sem passar a vez. Qualquer um pode usar a qualquer momento, sem precisar explicar.</p>
+              </div>
+            </li>
+          </ol>
 
-        <ol class="howto-steps">
+          <div>
+            <h3 class="howto-sub">Tipos de carta</h3>
+            <ul class="howto-types" id="howtoTypes"></ul>
+          </div>
 
-          <li>
-            Escolham o modo: <b>Livre</b>, com cartas variadas, ou
-            <b>Noite de Encontro</b>, uma sessão guiada que começa leve
-            e vai esquentando aos poucos.
-          </li>
+          <p class="modal-note">
+            Joguem com consentimento, leveza e respeito. Qualquer pessoa pode
+            dizer não ou trocar a carta a qualquer momento. O objetivo é a
+            conexão. Conteúdo para maiores de 18 anos.
+          </p>
+        </div>
 
-          <li>
-            Escolham as categorias e o nível de intensidade.
-          </li>
-
-          <li>
-            Cada carta tem um formato: pergunta, escolha, adivinha,
-            brincadeira, verdade ou desafio, desafio com cronômetro e mais. Leiam em voz alta
-            e vivam o momento.
-          </li>
-
-          <li>
-            Quando a carta tiver cronômetro ou contagem, é só tocar no botão.
-          </li>
-
-          <li>
-            Usem <b>Próximo</b> para avançar e concluir a jogada,
-            ou <b>Outra</b> para trocar de carta. Qualquer um pode trocar
-            a carta a qualquer momento, sem precisar explicar.
-          </li>
-
-          <li>
-            O jogo alterna automaticamente entre os dois jogadores.
-            Uma rodada se completa quando os dois jogaram.
-          </li>
-
-        </ol>
-
-        <p class="modal-note">
-          Joguem com consentimento, leveza e respeito.
-          O objetivo é a conexão.
-        </p>
-
-        <button
-          class="btn btn--primary btn--block"
-          data-close-modal
-        >
-          Entendi
-        </button>
-
+        <footer class="modal-foot">
+          <button class="btn btn--primary btn--block" data-close-modal>Entendi</button>
+        </footer>
       </div>
     </div>
 

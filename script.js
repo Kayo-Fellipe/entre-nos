@@ -15,6 +15,7 @@
   if (!D) { console.error("cards.js não foi carregado."); return; }
   const CATEGORIES = D.categories;
   const INTENSITIES = D.intensities;
+  const INT_ORDER = ["leve", "picante", "intenso"];
 
   function formatLabel(value) {
     if (value === null || value === undefined) return "";
@@ -159,6 +160,23 @@
 
   let lastFocus = null;
 
+  function renderHowtoTypes() {
+    const ul = $("#howtoTypes");
+    if (!ul) return;
+    ul.innerHTML = "";
+    Object.values(D.formats).forEach((f) => {
+      const li = document.createElement("li");
+      const n = document.createElement("span");
+      n.className = "howto-type-name";
+      n.textContent = f.label;
+      const t = document.createElement("span");
+      t.className = "howto-type-help";
+      t.textContent = f.help || "";
+      li.append(n, t);
+      ul.appendChild(li);
+    });
+  }
+
   function openModal(name) {
     const m = $(`.modal[data-modal="${name}"]`);
     if (!m) return;
@@ -185,17 +203,50 @@
     { id: "noite", name: "Noite de Encontro", desc: "Sessão guiada: começa leve e vai esquentando" },
   ];
 
+  const CHECK_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  // Ordem de "toque" das categorias: a mais recente vai para o centro do leque
+  const touch = {};
+  let touchN = 0;
+  CATEGORIES.slice().reverse().forEach((c) => { touch[c.id] = ++touchN; });
+
+  function renderFan() {
+    const wrap = $("#stFan");
+    if (!wrap) return;
+    const picks = state.settings.categories
+      .map((id) => catById(id))
+      .filter(Boolean)
+      .sort((a, b) => touch[b.id] - touch[a.id])
+      .slice(0, 3);
+    const [center, left, right] = picks;
+    const card = (cat, cls) =>
+      cat
+        ? `<div class="fan-card ${cls}">${cat.icon}<span>${cat.name}</span></div>`
+        : "";
+    wrap.innerHTML = card(left, "fan-card--l") + card(right, "fan-card--r") + card(center, "fan-card--c is-pop");
+  }
+
+  function renderSummary() {
+    const n = state.settings.categories.length;
+    const intName = (INTENSITIES.find((i) => i.id === state.settings.intensity) || {}).name || "";
+    const mode = state.settings.mode === "noite" ? "Noite de Encontro" : "Modo livre";
+    $("#stSummary").textContent = `${n} ${n === 1 ? "categoria" : "categorias"} · ${intName} · ${mode}`;
+  }
+
   function renderSetup() {
     // Modo de jogo
     const modeWrap = $("#modeGrid");
     modeWrap.innerHTML = "";
     MODES.forEach((m) => {
+      const on = state.settings.mode === m.id;
       const opt = document.createElement("button");
       opt.type = "button";
-      opt.className = "int-opt mode-opt" + (state.settings.mode === m.id ? " is-selected" : "");
+      opt.className = "st-mode" + (on ? " is-selected" : "");
       opt.dataset.mode = m.id;
-      opt.innerHTML = `<span class="int-checkbox"></span>
-        <span class="int-text"><span class="int-name">${m.name}</span><span class="int-desc">${m.desc}</span></span>`;
+      opt.setAttribute("role", "radio");
+      opt.setAttribute("aria-checked", on ? "true" : "false");
+      opt.innerHTML = `<span class="st-radio"></span>
+        <span><span class="st-mode-name">${m.name}</span><span class="st-mode-desc">${m.desc}</span></span>`;
       opt.addEventListener("click", () => { state.settings.mode = m.id; saveSettings(); renderSetup(); });
       modeWrap.appendChild(opt);
     });
@@ -204,41 +255,42 @@
     const catWrap = $("#categoryChips");
     catWrap.innerHTML = "";
     CATEGORIES.forEach((cat) => {
-      const chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "chip" + (state.settings.categories.includes(cat.id) ? " is-selected" : "");
-      chip.dataset.cat = cat.id;
-      chip.innerHTML = `<span class="chip-icon">${cat.icon}</span>
-      <span class="chip-name">${cat.name}</span>
-      `;
-      chip.addEventListener("click", () => toggleCategory(cat.id));
-      catWrap.appendChild(chip);
+      const on = state.settings.categories.includes(cat.id);
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "st-tile" + (on ? " is-selected" : "");
+      tile.dataset.cat = cat.id;
+      tile.setAttribute("aria-pressed", on ? "true" : "false");
+      tile.innerHTML = `<span class="st-check">${CHECK_SVG}</span>
+        <span class="st-tile-ico">${cat.icon}</span>
+        <span class="st-tile-name">${cat.name}</span>
+        <span class="st-tile-sub">${cat.sub || ""}</span>`;
+      tile.addEventListener("click", () => toggleCategory(cat.id));
+      catWrap.appendChild(tile);
     });
 
-    // Intensidade
+    // Intensidade (trilha com 3 pontos)
+    const curIdx = Math.max(0, INT_ORDER.indexOf(state.settings.intensity));
     const intWrap = $("#intensityGrid");
     intWrap.innerHTML = "";
-    INTENSITIES.forEach((it) => {
-    const opt = document.createElement("button");
-    opt.type = "button";
-    opt.className =
-      "int-opt" +
-      (state.settings.intensity === it.id ? " is-selected" : "");
-    opt.dataset.int = it.id;
-    opt.innerHTML = `
-      <span class="int-checkbox"></span>
-      <span class="int-name">${it.name}</span>
-    `;
-    opt.addEventListener("click", () => setIntensity(it.id));
-    intWrap.appendChild(opt);
-  });
+    INTENSITIES.forEach((it, i) => {
+      const opt = document.createElement("button");
+      opt.type = "button";
+      opt.className = "st-step" + (i === curIdx ? " is-current" : i < curIdx ? " is-done" : "");
+      opt.dataset.int = it.id;
+      opt.setAttribute("role", "radio");
+      opt.setAttribute("aria-checked", i === curIdx ? "true" : "false");
+      opt.innerHTML = `<span class="st-dotwrap"><span class="st-dot"></span></span>${it.name}`;
+      opt.addEventListener("click", () => setIntensity(it.id));
+      intWrap.appendChild(opt);
+    });
+    $("#intFill").style.width = curIdx * 50 + "%";
+    const curInt = INTENSITIES[curIdx];
+    $("#intLevel").textContent = curInt.name;
+    $("#intHelp").textContent = curInt.desc + (curIdx === 0 ? "." : ". Inclui também as cartas dos níveis anteriores.");
 
-    // Ajuda da intensidade
-    const curInt = INTENSITIES.find((i) => i.id === state.settings.intensity);
-    const help = $("#intHelp");
-    if (help && curInt) {
-      help.textContent = curInt.desc + (curInt.id === "leve" ? "." : ". Inclui também as cartas dos níveis anteriores.");
-    }
+    renderFan();
+    renderSummary();
 
     // Nomes
     $("#player1Name").value = state.settings.player1;
@@ -253,6 +305,7 @@
       list.splice(idx, 1);
     } else {
       list.push(id);
+      touch[id] = ++touchN;
     }
     saveSettings();
     renderSetup();
@@ -278,7 +331,6 @@
   /* ============================================================
      7. JOGO — baralho, sorteio, formatos e ações
      ============================================================ */
-  const INT_ORDER = ["leve", "picante", "intenso"];
 
   function allowedInts() {
     const idx = INT_ORDER.indexOf(state.settings.intensity);
@@ -941,6 +993,7 @@
      ============================================================ */
   function init() {
     renderSetup();
+    renderHowtoTypes();
     bindPlayerInputs();
     bindEvents();
     // Garante tela inicial ativa
