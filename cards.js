@@ -13,6 +13,8 @@
      fmt:      formato (veja FORMATS)
      text:     texto principal (aceita {atual} e {outro} = nomes)
      options:  ["A", "B"]      (formato "escolha")
+     truth / dare: textos do formato "vd" (verdade ou desafio)
+     dareSeconds:  cronômetro que só aparece se a pessoa escolher o desafio
      seconds:  número          (mostra cronômetro)
      who:      "vez" | "ambos" (padrão vem do formato)
      tags:     ["fim", ...]    ("fim" = só na Noite de Encontro)
@@ -36,6 +38,11 @@
       id: "diversao",
       name: "Diversão",
       icon: svg('<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/>'),
+    },
+    {
+      id: "verdade",
+      name: "Verdade ou Desafio",
+      icon: svg('<rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/>'),
     },
     {
       id: "carinho",
@@ -77,6 +84,7 @@
     frase:       { label: "Complete a frase", who: "ambos", hint: "Cada um completa, em voz alta." },
     historia:    { label: "Nossa história",   who: "ambos", hint: "Um conta, o outro escuta. Depois invertam." },
     brincadeira: { label: "Brincadeira",      who: "vez",   hint: "" },
+    vd:          { label: "Você escolhe",     who: "vez",   hint: "{atual} escolhe. Pode mudar de ideia ou pedir outra carta." },
     missao:      { label: "Missão",           who: "ambos", hint: "Combinem agora. Vale para depois do jogo." },
   };
 
@@ -84,7 +92,7 @@
   const stages = [
     { id: "aquecimento", name: "Aquecimento", n: 3, cats: ["conexao", "diversao"], ints: ["leve"], tags: ["abertura"] },
     { id: "conexao",     name: "Conexão",     n: 4, cats: ["conexao"],             ints: ["leve", "picante"] },
-    { id: "diversao",    name: "Diversão",    n: 3, cats: ["diversao"],            ints: ["leve", "picante"] },
+    { id: "diversao",    name: "Diversão",    n: 3, cats: ["diversao", "verdade"],            ints: ["leve", "picante"] },
     { id: "carinho",     name: "Carinho",     n: 3, cats: ["carinho"],             ints: ["leve", "picante", "intenso"], ascending: true },
     { id: "intimidade",  name: "Intimidade",  n: 3, cats: ["intimidade", "posicoes"], ints: ["picante", "intenso"], ascending: true },
     { id: "fechamento",  name: "Fechamento",  n: 1, cats: ["conexao"],             ints: ["leve", "picante", "intenso"], tags: ["fim"], only: true },
@@ -246,6 +254,49 @@
   k("diversao", "leve", "acao", "Faça uma declaração romântica improvisada para {outro}.");
   k("diversao", "picante", "acao", "Deixe {outro} sem graça usando apenas elogios.");
   k("diversao", "picante", "acao", "Passe 30 segundos conquistando {outro} apenas com o olhar.", { seconds: 30 });
+
+  /* ===================== VERDADE OU DESAFIO ===================== */
+  // vd(intensidade, verdade, desafio, { dareSeconds })
+  const vd = (int, truth, dare, extra = {}) =>
+    k("verdade", int, "vd", "Verdade ou desafio?", { truth, dare, ...extra });
+
+  // ---- Leve
+  vd("leve", "Qual foi a primeira coisa que você achou charmosa em mim?", "Faça uma declaração de amor de 20 segundos, com direito a drama.", { dareSeconds: 20 });
+  vd("leve", "Qual é a sua lembrança favorita de nós dois?", "Imite o jeito de {outro} rir.");
+  vd("leve", "Qual mania minha você acha mais engraçada?", "Dê um abraço de 20 segundos e não solte antes do tempo.", { dareSeconds: 20 });
+  vd("leve", "Qual música você dedicaria a mim hoje?", "Cante o refrão dessa música para {outro}.");
+  vd("leve", "Você já sentiu ciúmes de algo bobo? Conte.", "Faça {outro} sorrir sem usar palavras.");
+  vd("leve", "Qual foi o melhor beijo que já demos? Onde estávamos?", "Dê um beijo na testa, um no rosto e um na boca de {outro}.");
+  vd("leve", "O que você mais gosta em mim: o abraço, a voz ou o sorriso?", "Faça uma massagem de 1 minuto nos ombros de {outro}.", { dareSeconds: 60 });
+  vd("leve", "Em que momento você mais riu comigo?", "Faça uma careta e segure até {outro} rir.");
+  vd("leve", "Se você pudesse me dar qualquer presente hoje, qual seria?", "Escreva com o dedo, nas costas de {outro}, uma palavra carinhosa. {outro} tenta adivinhar.");
+  vd("leve", "O que você mais admira em mim?", "Beije a mão de {outro} e diga uma coisa que você ama nela.");
+  vd("leve", "Qual é a sua comida favorita para dividir comigo?", "Dance por 20 segundos, sem música e sem vergonha.", { dareSeconds: 20 });
+  vd("leve", "Qual foi o dia mais feliz que você viveu comigo?", "Faça cafuné em {outro} por 1 minuto.", { dareSeconds: 60 });
+  // ---- Picante
+  vd("picante", "Em que momento você mais se sente atraído(a) por mim?", "Sussurre no ouvido de {outro} algo que você acha muito atraente em {outro}.");
+  vd("picante", "Qual foi o beijo nosso que mais te marcou?", "Beije {outro} devagar, aproximando o corpo aos poucos.");
+  vd("picante", "Qual roupa minha faz você olhar duas vezes?", "Fique a poucos centímetros de {outro} por 30 segundos, sem beijar.", { dareSeconds: 30 });
+  vd("picante", "Você já pensou em mim num momento inesperado do dia? Quando?", "Dance para {outro} por 30 segundos.", { dareSeconds: 30 });
+  vd("picante", "O que eu faço que te deixa sem graça (do jeito bom)?", "Dê três beijos lentos nos lugares que {outro} escolher.");
+  vd("picante", "Que lugar você gostaria de me levar numa noite especial?", "{outro} fecha os olhos e você escolhe onde dará cinco beijos.");
+  vd("picante", "Qual é o seu momento do dia favorito para ficar perto de mim?", "Dê um beijo lento no pescoço de {outro}.");
+  vd("picante", "O que te faz sentir mais desejado(a) por mim?", "Olhe nos olhos de {outro} por 30 segundos, sem falar e sem rir.", { dareSeconds: 30 });
+  vd("picante", "Se tivéssemos uma noite livre amanhã, o que você planejaria?", "Faça uma massagem lenta nas costas de {outro} por 1 minuto.", { dareSeconds: 60 });
+  vd("picante", "Que tipo de carinho você mais gosta de receber de mim?", "Dê o carinho que {outro} pedir, por 1 minuto.", { dareSeconds: 60 });
+  vd("picante", "Qual cantada ou frase minha você nunca esqueceu?", "Diga a pior cantada que você conhecer, olhando nos olhos de {outro}.");
+  vd("picante", "Quando você sentiu vontade de me beijar pela primeira vez?", "Beije {outro} por 1 minuto, sem interromper o contato.", { dareSeconds: 60 });
+  // ---- Intenso
+  vd("intenso", "O que você sempre teve vontade de me pedir?", "Sussurre uma fantasia romântica no ouvido de {outro}.");
+  vd("intenso", "Qual é o seu maior desejo para uma noite a dois?", "Beije {outro} como se fosse a primeira vez, com calma e curiosidade.");
+  vd("intenso", "O que mais te deixa arrepiado(a) quando estamos juntos?", "Beije devagar o pescoço de {outro}, mantendo o contato visual.");
+  vd("intenso", "O que você gostaria que fizéssemos mais vezes, só nós dois?", "Dê beijos demorados pelo pescoço e pelos ombros de {outro}.");
+  vd("intenso", "Qual momento nosso a sós você mais gostaria de reviver?", "Dancem juntos, bem abraçados, até o fim de uma música.");
+  vd("intenso", "Como você descreveria a nossa química em três palavras?", "Comece com um beijo suave e aumente a intensidade aos poucos.");
+  vd("intenso", "O que você gostaria de experimentar comigo que ainda não fizemos?", "Escolha uma frase de efeito e diga olhando nos olhos de {outro}, sem rir.");
+  vd("intenso", "Em que situação você se sente mais à vontade comigo?", "Deixe {outro} escolher um carinho e faça por 1 minuto.", { dareSeconds: 60 });
+  vd("intenso", "O que você mais gosta quando ficamos a sós?", "Termine esta rodada com o beijo mais apaixonado que conseguirem.");
+  vd("intenso", "Qual é a sua maior vontade agora, sem filtro e sem pressão?", "Fique frente a frente com {outro} e diga o que mais te encanta em {outro}.");
 
   /* ===================== CARINHO ===================== */
   // ---- Ação / leve

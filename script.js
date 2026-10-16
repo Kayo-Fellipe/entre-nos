@@ -35,7 +35,8 @@
   const STORAGE_KEY = "entre-nos-settings-v1";
 
   const defaultSettings = {
-    categories: ["conexao", "diversao", "carinho", "intimidade", "posicoes"],
+    categories: ["conexao", "diversao", "verdade", "carinho", "intimidade", "posicoes"],
+    catsVersion: 3,
     intensity: "picante",
     mode: "livre",   // "livre" | "noite"
     player1: "",
@@ -80,6 +81,11 @@
         if (hadOld && !merged.categories.includes("conexao")) merged.categories.unshift("conexao");
         merged.categories = merged.categories.filter((c) => CATEGORIES.some((x) => x.id === c));
         if (!merged.categories.length) merged.categories = [...defaultSettings.categories];
+      }
+      // Migração v3: a categoria "verdade" (Verdade ou Desafio) entra para quem já tinha configuração
+      if ((parsed.catsVersion || 0) < 3) {
+        if (!merged.categories.includes("verdade")) merged.categories.push("verdade");
+        merged.catsVersion = 3;
       }
       if (merged.mode !== "livre" && merged.mode !== "noite") merged.mode = "livre";
       return merged;
@@ -604,12 +610,52 @@
     return wrap;
   }
 
+  /* Verdade ou Desafio: a pessoa escolhe um lado e o texto aparece */
+  function buildVD(c, f) {
+    const wrap = document.createElement("div");
+    wrap.className = "xvd";
+    const row = document.createElement("div");
+    row.className = "xvd-row";
+    const slot = document.createElement("div");
+    slot.className = "xvd-slot";
+    const textEl = $("#cardText");
+    const fmtEl = $("#cardFormat");
+    const buttons = {};
+
+    const pick = (kind) => {
+      if (buttons[kind].classList.contains("is-picked")) return;
+      clearWidgets();
+      slot.textContent = "";
+      Object.entries(buttons).forEach(([k, b]) => {
+        b.classList.toggle("is-picked", k === kind);
+        b.classList.toggle("is-dim", k !== kind);
+      });
+      textEl.textContent = fillTokens(kind === "truth" ? c.truth : c.dare);
+      fmtEl.textContent = kind === "truth" ? "Verdade" : "Desafio";
+      if (kind === "dare" && c.dareSeconds) slot.appendChild(buildTimer(c.dareSeconds));
+      adjustCardText();
+    };
+
+    [["truth", "Verdade"], ["dare", "Desafio"]].forEach(([kind, label]) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "xvd-btn";
+      b.textContent = label;
+      b.addEventListener("click", () => pick(kind));
+      buttons[kind] = b;
+      row.appendChild(b);
+    });
+    wrap.append(row, slot);
+    return wrap;
+  }
+
   function renderExtra(c, f) {
     clearWidgets();
     const box = $("#cardExtra");
     box.textContent = "";
     let node = null;
-    if (c.options && c.options.length) node = buildOptions(c.options);
+    if (c.fmt === "vd") node = buildVD(c, f);
+    else if (c.options && c.options.length) node = buildOptions(c.options);
     else if (c.seconds) node = buildTimer(c.seconds);
     else if (f && f.countdown) node = buildCountdown();
     if (node) box.appendChild(node);

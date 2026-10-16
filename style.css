@@ -864,108 +864,6 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
   width: 100%;
 }
 .game-actions .btn--soft { padding: 14px 8px; font-size: 0.9rem; }
-.game-secondary {
-  display: flex;
-  justify-content: center;
-  gap: var(--sp-3);
-}
-
-/* ============================================================
-   POSIÇÕES
-   ============================================================ */
-.screen--positions { justify-content: flex-start; }
-.positions-inner {
-  width: 100%;
-  max-width: 640px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-  padding-top: var(--sp-2);
-}
-.positions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--sp-4);
-}
-.pos-card {
-  position: relative;
-  padding: var(--sp-5);
-  border-radius: var(--r-lg);
-  background: linear-gradient(160deg, rgba(255, 245, 248, 0.08), rgba(255, 245, 248, 0.03));
-  border: 1px solid var(--glass-brd);
-  backdrop-filter: blur(12px);
-  overflow: hidden;
-  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease);
-}
-.pos-card:hover { transform: translateY(-3px); border-color: var(--glass-brd-hi); }
-.pos-card::before {
-  content: "";
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(233, 30, 99, 0.18), transparent 70%);
-}
-.pos-photo-wrap {
-  width: 100%;
-  height: 180px;
-  border-radius: var(--r-md);
-  overflow: hidden;
-  margin-bottom: var(--sp-3);
-  position: relative;
-  background: rgba(255, 245, 248, 0.03);
-}
-.pos-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s var(--ease);
-}
-.pos-card:hover .pos-photo { transform: scale(1.05); }
-.pos-photo-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-2);
-  color: var(--red-300);
-}
-.pos-photo-placeholder svg { width: 56px; height: 56px; opacity: 0.7; }
-.pos-photo-placeholder span { font-size: 0.8rem; color: var(--muted); }
-.pos-silhouette {
-  width: 100%;
-  height: 90px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--sp-3);
-}
-.pos-silhouette svg { width: 80px; height: 80px; opacity: 0.85; }
-.pos-name {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: var(--sp-2);
-}
-.pos-desc {
-  font-size: 0.9rem;
-  color: var(--muted);
-  margin-bottom: var(--sp-4);
-  line-height: 1.5;
-}
-.pos-meta {
-  display: flex;
-  gap: var(--sp-4);
-  font-size: 0.78rem;
-}
-.pos-meta-item { display: flex; flex-direction: column; gap: 2px; }
-.pos-meta-label { color: var(--muted-2); text-transform: uppercase; letter-spacing: 1px; font-size: 0.68rem; }
-.pos-meta-val { font-weight: 600; }
-.pos-dots { display: flex; gap: 3px; }
-.pos-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 245, 248, 0.18); }
-.pos-dot.on { background: var(--red-400); }
 
 /* ============================================================
    MODAL
@@ -1508,3 +1406,26 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
 }
 .screen--game .card-text.text--small  { font-size: 0.92rem; }
 .screen--game .card-text.text--xsmall { font-size: 0.84rem; }
+
+
+/* ---------- Verdade ou Desafio ---------- */
+.xvd { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+.xvd-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.xvd-btn {
+  min-height: 46px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(216, 140, 255, 0.45);
+  background: rgba(103, 24, 120, 0.3);
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background var(--t-fast) var(--ease), opacity var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+}
+.xvd-btn:active { transform: scale(0.98); }
+.xvd-btn.is-picked {
+  background: linear-gradient(100deg, rgba(255, 78, 145, 0.4), rgba(165, 42, 211, 0.4));
+  border-color: var(--red-400);
+}
+.xvd-btn.is-dim { opacity: 0.55; }
+.xvd-slot:empty { display: none; }
