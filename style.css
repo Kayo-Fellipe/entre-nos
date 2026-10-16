@@ -1200,7 +1200,6 @@ button { background: none; border: none; cursor: pointer; touch-action: manipula
   flex-direction: column;
   gap: 12px;
   padding: 30px 0 calc(14px + env(safe-area-inset-bottom, 0px));
-  background: linear-gradient(180deg, rgba(22, 7, 19, 0), #160713 42%);
 }
 .st-summary { text-align: center; font-size: 0.85rem; color: rgba(255, 247, 255, 0.7); }
 
